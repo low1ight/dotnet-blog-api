@@ -2,14 +2,18 @@ using Blog.API.Data;
 using Blog.API.Modules.Post.Application;
 using Blog.API.Modules.Post.Infrastructure.QueryRepository;
 using Blog.API.Modules.Post.Infrastructure.Repository;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IPostsQueryRepository, PostsQueryRepository>();

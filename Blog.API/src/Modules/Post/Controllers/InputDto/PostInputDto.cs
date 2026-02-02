@@ -1,6 +1,6 @@
 ﻿namespace Blog.API.Modules.Post.Controllers.InputDto;
 
-public class CreatePostDto
+public class PostInputDto
 {
     public string Title { get; set; } = string.Empty;
     

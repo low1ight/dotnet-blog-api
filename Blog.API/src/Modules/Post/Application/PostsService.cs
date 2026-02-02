@@ -5,7 +5,7 @@ namespace Blog.API.Modules.Post.Application;
 
 public class PostsService(IPostsRepository repository) : IPostsService
 {
-    public async Task<int> CreatePostAsync(CreatePostDto dto)
+    public async Task<int> CreatePostAsync(PostInputDto dto)
     {
         var post = new Domain.Post
         {
@@ -20,7 +20,7 @@ public class PostsService(IPostsRepository repository) : IPostsService
         
     }
 
-    public async Task<bool> UpdatePostAsync(UpdatePostDto dto,int id)
+    public async Task<bool> UpdatePostAsync(PostInputDto dto,int id)
     {
         var post = await repository.GetPostById(id);
             
