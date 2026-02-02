@@ -1,4 +1,5 @@
-﻿using Blog.API.Modules.Post.Application;
+﻿using Blog.API.Core.Paginator;
+using Blog.API.Modules.Post.Application;
 using Blog.API.Modules.Post.Controllers.InputDto;
 using Blog.API.Modules.Post.Controllers.ViewDto;
 using Blog.API.Modules.Post.Infrastructure.QueryRepository;
@@ -16,8 +17,11 @@ public class PostsController(
     ) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<PostViewDto>>> GetAllPosts()
-        => Ok(await postsQueryRepository.GetAllPosts());
+    public async Task<ActionResult<Paginator<PostViewDto>>> GetAllPosts([FromQuery] PostQueryParams queryParams)
+    {
+        return Ok(await postsQueryRepository.GetAllPosts(queryParams));
+    }
+        
 
     [HttpGet("id")]
     public async Task<ActionResult<PostViewDto>> GetAllPosts(int id)
