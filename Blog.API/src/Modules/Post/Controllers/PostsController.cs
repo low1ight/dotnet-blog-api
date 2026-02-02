@@ -31,16 +31,8 @@ public class PostsController(
     }
     
     [HttpPost]
-    public async Task<ActionResult<PostViewDto>> CreatePost(PostInputDto dto, IValidator<PostInputDto> validator)
+    public async Task<ActionResult<PostViewDto>> CreatePost(PostInputDto dto)
     {
-        var validationResult = await validator.ValidateAsync(dto);
-        if (!validationResult.IsValid)
-        {
-            var problemDetails = new HttpValidationProblemDetails(validationResult.ToDictionary());
-            return new BadRequestObjectResult(problemDetails);
-        }
-        
-        
         var createdPostId = await postsService.CreatePostAsync(dto);
         var post = await postsQueryRepository.GetPostById(createdPostId);
         return CreatedAtAction(nameof(GetAllPosts), new { id = createdPostId }, post);
@@ -48,15 +40,8 @@ public class PostsController(
     
     
     [HttpPut("id")]
-    public async Task<ActionResult<PostViewDto>> UpdatePost(PostInputDto dto, int id, IValidator<PostInputDto> validator)
+    public async Task<ActionResult<PostViewDto>> UpdatePost(PostInputDto dto, int id)
     {
-        var validationResult = await validator.ValidateAsync(dto);
-        if (!validationResult.IsValid)
-        {
-            var problemDetails = new HttpValidationProblemDetails(validationResult.ToDictionary());
-            return new BadRequestObjectResult(problemDetails);
-        }
-        
         bool result = await postsService.UpdatePostAsync(dto, id);
         return result ? NoContent() : NotFound();
     }
