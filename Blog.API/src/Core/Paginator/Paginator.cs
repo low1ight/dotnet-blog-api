@@ -1,9 +1,9 @@
 ﻿namespace Blog.API.Core.Paginator;
 
-public class Paginator<T>(int pageNumber, int pageSize, int totalItems, List<T> items)
+public class Paginator<T>
 {
-    public int PageNumber { get; set; } = pageNumber;
-    public int PageSize { get; set; } = pageSize;
-    public int TotalItemsCount { get; set; } = totalItems;
-    public List<T> Items { get; set; }  = items;
+    public required int PageNumber { get; set; }
+    public required int PageSize { get; set; }
+    public required int TotalItemsCount { get; set; }
+    public required List<T> Items { get; set; }
 }

@@ -18,6 +18,11 @@
         </PackageReference>
         <PackageReference Include="Scalar.AspNetCore" Version="2.12.30" />
         <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.5.0" />
+        <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="src\Modules\Post\Dto\" />
     </ItemGroup>
 
 </Project>

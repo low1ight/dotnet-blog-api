@@ -1,9 +1,10 @@
-﻿using Blog.API.Modules.Post.Controllers.InputDto;
-using Blog.API.Modules.Post.Infrastructure.Repository;
+﻿using Blog.API.Data;
+using Blog.API.Modules.Post.Controllers.InputDto;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.API.Modules.Post.Application;
 
-public class PostsService(IPostsRepository repository) : IPostsService
+public class PostsService(AppDbContext context)
 {
     public async Task<int> CreatePostAsync(PostInputDto dto)
     {
@@ -14,7 +15,8 @@ public class PostsService(IPostsRepository repository) : IPostsService
             Description = dto.Description,
         };
         
-        await repository.CreatePost(post);
+        context.Posts.Add(post);
+        await context.SaveChangesAsync();
         
         return post.Id;
         
@@ -22,7 +24,7 @@ public class PostsService(IPostsRepository repository) : IPostsService
 
     public async Task<bool> UpdatePostAsync(PostInputDto dto,int id)
     {
-        var post = await repository.GetPostById(id);
+        var post = await context.Posts.Where(c => c.Id == id).FirstOrDefaultAsync();
             
         if (post is null) return false;
         
@@ -30,7 +32,7 @@ public class PostsService(IPostsRepository repository) : IPostsService
         post.Content = dto.Content;
         post.Description = dto.Description;
 
-        await repository.UpdatePost(post);
+        await context.SaveChangesAsync();
         
         return true;
     }
@@ -38,11 +40,13 @@ public class PostsService(IPostsRepository repository) : IPostsService
 
     public async Task<bool> DeletePostAsync(int id)
     {
-        var post = await repository.GetPostById(id);
+        var post = await context.Posts.Where(c => c.Id == id).FirstOrDefaultAsync();
             
         if (post is null) return false;
         
-        await repository.DeletePost(post);
+        context.Posts.Remove(post);
+
+        await context.SaveChangesAsync();
 
         return true;
     }
