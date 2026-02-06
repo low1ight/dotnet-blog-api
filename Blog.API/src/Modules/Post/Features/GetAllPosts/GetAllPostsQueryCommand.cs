@@ -48,7 +48,7 @@ public class GetAllPostsQueryCommand(AppDbContext context) : IRequestHandler<Get
         return new Paginator<PostViewDto>
         {
             PageNumber = param.PageNumber,
-            PageSize = result.Count,
+            PageSize = param.PageSize,
             TotalItemsCount = totalCount,
             Items = result
         };
